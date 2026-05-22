@@ -1,0 +1,36 @@
+services:
+    nginx:
+        container_name: nginx
+        build:
+            context: requirements/nginx
+        restart: unless-stopped
+        # env_file: .env
+        ports:
+            - "443:443"
+        # depends_on:
+        #   - wordpress
+        networks:
+          - docker-network
+        volumes:
+            - ./requirements/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:rw
+            # - wordpress_vol:/var/www/wordpress
+
+    mariadb:
+      container_name: mariadb
+      build:
+        context: requirements/mariadb
+      restart: unless-stopped
+      # env_file: .env
+      networks:
+        - docker-network
+      # volumes:
+      #   - mariadb_vol:/var/lib/mysql
+
+networks:
+  docker-network:
+    driver: bridge 
+
+#  docker exec -it nginx bash
+
+
+# voir plus tard pour secrets
