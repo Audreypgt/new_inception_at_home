@@ -5,7 +5,11 @@
 # DB_PASSWORD=$(cat /run/secrets/db_password)
 # DB_ROOT_PASSWORD=$(cat /run/secrets/db_root_password)
 
-set -x
+# debug : get commands output in terminal
+# set -x
+
+# stops immediately if exit other than 0
+set -e
 
 mysqld_safe
 

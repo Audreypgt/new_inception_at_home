@@ -11,12 +11,6 @@ RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt -keyout /etc/ngin
 -subj "/C=FR/L=Marseille/O=42/CN=apeuget.42.fr/UID=apeuget42"
 
 
-# Wordpress folder creation
-RUN mkdir -p /var/www/wordpress
-RUN chown -R www-data:www-data /var/www/wordpress
-RUN chmod 755 /var/www/wordpress
-
-
 # nginx folders creation
 RUN chown -R www-data:www-data /etc/nginx/
 RUN chmod 755 /etc/nginx/

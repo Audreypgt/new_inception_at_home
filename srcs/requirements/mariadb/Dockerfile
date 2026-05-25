@@ -18,3 +18,4 @@ ENTRYPOINT ["/usr/local/bin/mariadb_setup.sh"]
 
 # CMD ["mysqld", "--bind-address=0.0.0.0"]
 # command to launch mariadb and enable it to listen globally
+# useless since the bash script does it too
