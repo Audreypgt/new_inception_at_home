@@ -11,7 +11,8 @@
 # stops immediately if exit other than 0
 set -e
 
-mysqld_safe
+mysqld_safe &
+# runs the command in the background so script can continue
 
 # wait for server to be ready before running mariadb commands
 until mariadb-admin ping --silent; do

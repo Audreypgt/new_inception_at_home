@@ -36,6 +36,7 @@ services:
     volumes:
       - wordpress_vol:/var/www/wordpress
       - ./requirements/wordpress/conf/www.conf:/etc/php/8.2/fpm/pool.d/www.conf:rw
+      - ./requirements/wordpress/tools/config_script.sh:/var/www/wordpress/config_script.sh:xrw
 
 networks:
   docker-network:
@@ -55,8 +56,4 @@ volumes:
       o: bind
       device: /home/apeuget42/data/wordpress
 
-
-# docker exec -it nginx bash
-
-# to do next : wordpress
-# voir plus tard pour secrets
+# voir pour secrets

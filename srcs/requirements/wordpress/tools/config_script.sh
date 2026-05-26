@@ -5,16 +5,19 @@ sleep 10
 # make sure database is ready
 
 if [ ! -f /var/www/wordpress/wp-config.php ]; then
-# verify path
-    wp config create --allow-root --dbname=$MYSQL_DATABASE --dbuser=$MYSQL_USER --dbpass=$MYSQL_PASSWORD --dbhost=mariadb:3306 --path /var/www/wordpress
-    wp core install --url "apeuget.42.fr" --title="apeuget42" --admin_user=$MYSQL_USER_ADMIN --admin_password=$MYSQL_PASSWORD_ADMIN --admin_email="admin@apeuget.42.fr"
-    # installs wp: creates the wordpress tables in the database (it's not the same thing as creating the database as it puts data in an already existing db i think)
-    wp user create $MYSQL_SECOND_USER --role=contributor --user_pass=$MYSQL_SECOND_PASSWORD
+wp config create --allow-root --dbname=$DB_NAME --dbuser=$DB_USER --dbpass=$DB_PASSWORD --dbhost=mariadb --path=/var/www/wordpress
+wp core install --url "apeuget.42.fr" --title="apeuget42" --admin_user=$DB_USER_ADMIN --admin_password=$DB_PASSWORD_ADMIN --admin_email="admin@apeuget.42.fr"
+# installs wp: creates the wordpress tables in the database (it's not the same thing as creating the database as it puts data in an already existing db i think)
+wp user create $DB_SECOND_USER --role=contributor --user_pass=$DB_SECOND_PASSWORD
     # creates second user
 
 fi
 
 exec /usr/sbin/php-fpm8.2 -F
+
+!!!!!! wp-config.php file not created and database errors (docker logs)
+
+
 # starts php
 #check path cause there is a folder called by the version like /usr/sbin/php-fpm7.3 -F
 

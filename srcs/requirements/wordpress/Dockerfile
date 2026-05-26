@@ -18,14 +18,8 @@ RUN cd /var/www/wordpress && sudo -u www-data wp core download
 
 EXPOSE 9000
 
-CMD ["/usr/sbin/php-fpm8.2", "-F"]
+# CMD ["/usr/sbin/php-fpm8.2", "-F"]
 
 # RUN --mount=type=secret,id=db_password,id=db_root_password
 
-# COPY conf/php.ini /etc/php/php.ini
-# to add to conf and to modify when its installed and i get the original one and check path for
-# php in container
-
-# ENTRYPOINT ["/bin/bash", "/tools/config_script.sh"]
-
-# Dont forget to uncomment fastcgi in nginx.conf !!!!!!!!!!!!!!
+ENTRYPOINT ["/bin/bash", "/var/www/wordpress/config_script.sh"]
