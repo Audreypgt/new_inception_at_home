@@ -19,7 +19,7 @@ re:
 fclean:
 	@cd ./srcs && docker compose down;\
  	docker system prune -a --volumes -f;\
-	sudo rm -rf /home/apeuget42/data/mariadb/*\
+	sudo rm -rf /home/apeuget42/data/mariadb/*;\
 	sudo rm -rf /home/apeuget42/data/wordpress/*;\
 
 # 	ls home/apeuget42/data/;\

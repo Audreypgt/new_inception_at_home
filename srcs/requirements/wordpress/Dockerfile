@@ -16,6 +16,8 @@ RUN cd /var/www/wordpress && sudo -u www-data wp core download
 # check that it creates a folder called wordpress
 # downloads wordpress files
 
+COPY ./tools/terminal-blog.zip /var/www/wordpress/wp-content/themes/
+
 EXPOSE 9000
 
 # CMD ["/usr/sbin/php-fpm8.2", "-F"]
