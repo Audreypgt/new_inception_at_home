@@ -1,8 +1,9 @@
 services:
   nginx:
       container_name: nginx
+      image: nginx
       build:
-          context: requirements/nginx
+        context: requirements/nginx
       restart: unless-stopped
       env_file: .env
       ports:
@@ -16,6 +17,7 @@ services:
           - wordpress_vol:/var/www/wordpress
   mariadb:
     container_name: mariadb
+    image: mariadb
     build:
       context: requirements/mariadb
     restart: unless-stopped
@@ -25,12 +27,12 @@ services:
     volumes:
       - mariadb_vol:/var/lib/mysql
     secrets: 
-      - db_name
       - db_user
       - db_password
       - db_root_password
   wordpress:
     container_name: wordpress
+    image: wordpress
     build:
       context: requirements/wordpress
     restart: unless-stopped
@@ -44,7 +46,6 @@ services:
       - ./requirements/wordpress/conf/www.conf:/etc/php/8.2/fpm/pool.d/www.conf:rw
       - ./requirements/wordpress/tools/config_script.sh:/var/www/wordpress/config_script.sh:xrw
     secrets: 
-      - db_name
       - db_user
       - db_password
       - db_2nd_user_password

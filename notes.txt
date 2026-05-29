@@ -1,13 +1,7 @@
-- each Docker image must have the same name as its corresponding service --> mine get called srcs-service
-automatically, is it normal ?
-
 - php-fpm (it must be installed and configured) --> is it configured ?
 
-- create admin user (in mariadb script or wordpress script ?)
-
-- it is mandatory to use a .env file -->
-modif made : .env file for DB_NAME, ADMIN_EMAIL and domain_name, added the env_file part to nginx in compose yaml and
-edited scripts accordingly
+images created with latest tag automatically, is it normal because this is an image made by ourselves, or is it the version of nginx...
+and in this case we need to choose and set a precise version ?
 
 - make automatic the creation of data/mariadb and data/wordpress
 - how to make the folder creation in /home/apeuget/ so that it adapts to the person's login ?

@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# DB_NAME=$(cat /run/secrets/db_name)
 DB_USER=$(cat /run/secrets/db_user)
 DB_PASSWORD=$(cat /run/secrets/db_password)
 DB_ROOT_PASSWORD=$(cat /run/secrets/db_root_password)
+# run is a temporary folder inside the dockerfile while it is running, containing secrets
 
 # debug : get commands output in terminal
 # set -x
@@ -26,8 +26,6 @@ GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO \`${DB_USER}\`@'%';
 ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD}';
 FLUSH PRIVILEGES; # apply changes
 EOF
-# CREATE USER IF NOT EXISTS \`${DB_USER_ADMIN}\`@'%' IDENTIFIED BY '${DB_PASSWORD_ADMIN}';
-# GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO \`${DB_USER_ADMIN}\`@'%';
 
 mariadb-admin -u root -p${DB_ROOT_PASSWORD} shutdown # with this line and the next == reboot
 exec mysqld_safe # exec kills the bash script and replaces it by mysql which will take its PID and keep running

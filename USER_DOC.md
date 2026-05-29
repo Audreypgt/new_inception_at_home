@@ -15,15 +15,14 @@ Prerequesites: Docker, Make, VirtualBox and a Virtual Machine
 - cd inside the cloned repository
 - Use `make start` to start Docker
 - Use `make up` to build and launch the project, check every container properly started with `make check` (container should all show "up")
-- Go to https://login.42.fr/ or to https://localhost:443/, if you get a 502 bad getway error, wait a 5 seconds and refresh, wordpress might not have finished starting up
-
-- For the administration panel, go to ????
+- Go to https://login.42.fr/ or to https://localhost:443/, if you get a 502 bad getway error, wait 5 seconds and refresh, wordpress might not have finished starting up
+- For the administration panel, go to https://apeuget.42.fr/wp-admin/
 
 - Use `make down` to stop containers and `make fclean` to delete everything, including volumes in the container and in the localhost (data folder)
 - If you change anything to the files, use `make fclean` and `make re` to start clean and not reuse any cache from previous containers
 
 ## Locate and manage credentials
-- For obvious security reasons, any credentials and environment variables are not provided in this repository   
+- For obvious security reasons, any credentials and environment variables are not provided in this repository
 - At its root, create a folder named "secrets" and create one txt file for each username and each password, you should have only ONE information by txt file, for example db_root_password.txt contains "rootpassword1234" and db_user.txt contains "username42"
     - You need 7 of these files, the names should be:
         - db_user.txt

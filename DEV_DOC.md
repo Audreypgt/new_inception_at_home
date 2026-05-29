@@ -47,14 +47,20 @@ ex:
 - Create 2 folders at `/home/your_login/data/` : `wordpress` and `mariadb` (you can make it automatic if needed by creating a bash script that will run on your host machine, and running it with make)
 - Create a volumes section at the end of your docker-compose file
     - Device is the place on your local machine o: bind is to specify that you're not really making a volume, but a bind-mount
+    - Driver defines the docker driver to be used, can be local for data stored on the host machine, cloud or network for shared storage data
+    - Driver opts lets you customize where and how the volume is stored on the host
+    - Type specifies the filesystem type (eg ext4, tmpfs, or none for bind mounts)
+    - O specifies the mount options (eg bind for bind mounts, ro for read-only, size=1G for tmpfs)
+    - Device is for the path to the host device directory or special value (eg tmpfs for in-memory storage), where data will be stored on host machine
 - Create a volumes section for each container that needs it in the services section
     - The structure is "local host folder: container folder", so for our volume: "the volume you created: the folder of your container it copies"
     - To mount and copy files from your local host to your container without creating a volume, use the same structure and add `:x/r/w` at the end to choose what rights you give the container on the given file
 #### Set up Docker secrets
-- In docker-compose.yaml add a `secrets` variable to your service image in `services` and add only the variables your container needs 
-- Create a `secrets` section at the end of your file and add all the variables with the path to each corresponding file
-    - In your .txt file, you can either put the secret directly or format it as SECRET="secret"
+- In docker-compose.yaml, create a `secrets` section at the end of your file and add all the variables with the path to each corresponding file
+    - Driver: bridge is the default, it creates a network where only the containers inside it can communicate completely isolated from the host machine's network (opposite is mode host)
+- Add a `secrets` variable to your service image in `services` and add only the variables your container needs 
 - At the top of the file where you need your secret variables, declare your variables as follow / DB_VAR=$(cat /run/secrets/db_var), run/secrets in the place on your container where the secrets are stored
+- In your .txt file, you can either put the secret directly or format it as SECRET="secret"
 - Note that you don't need to declare an "env_file" variable in your service image in the services section if you use only docker secrets
 
 # Useful commands
@@ -66,6 +72,9 @@ ex:
 - `docker container prune` to delete all conts even stopped ones, see whole command in makefile
 - `nginx -s reload` if you modify your container after running it or just docker compose up it again with make up
 - `service --status-all` check all running services in a container (use docker exec -it to go inside the cont)
+- `mkdir -p` creates all folders recursively, for ex /etc/nginx/ssl will create the parents etc and its 2 childs
+- `chown -R`: changes a file/folder's owner and group rights recursively (R)
+- `chown user:group` to modify both at the same time
 
 ### Test Mariadb is correctly setup
 check the DB:
@@ -146,11 +155,36 @@ In mariadb containers's terminal:
 
 
 # Glossary:
-- Nginx: Server
+- Docker-compose: file to automate the build of images and launch of containers
+    - container_name: note that compose does not scale a service beyond one container if the compose file specifies a container_name (which is what we do)
+    - ports: defines the accessible ports by the host machine
+    - restart unless-stopped: better than on-failure as it handles more cases where the container needs restart, such as a lost network connexion, being blocked following an internal error which isn't detected as an error by the system. Unless-stopped is similar to always but it won't restart when stopped manually on-failure will restart only when there is an exit code other than 0
+    - depends-on: order = database -> wordpress -> nginx 
+        - wordpress needs to find its database to start, otherwise it will raise errors, and nginx, our server, needs to find the service it's made to connect to, otherwise it will raise a "502 Bad Gateway" error
+        - image: we build a house with the foundations (DB), the walls (WordPress), then the door (NGINX)
+- Dockerfile: where we define our service's image
+    - FROM: allows us to tell Docker which image to get based on, in this project, using FROM debian, we basically have an empty shell container
+    - RUN apt-get update -y: updates list of available packages and their versions ; upgrade: installs newer versions
+        - -y : apt will ask if we want to continue with installation, -y allows us to answer before hand so it doesn't stop to get our input
+    - RUN apt-get install -y nginx openssl: this is when our container becomes a the actual service we want, in this nginx
+    - RUN rm -rf /var/lib/apt/lists/*: deletes temp files used for installation of services
+    - EXPOSE: sed when making the network, allows us to choose to expose a port to the other conts ; 443 is the port to access https
+
+
+- Nginx: Server ????????????????????
+
+
+- TLS: cryptographic protocol providing communication security over an internet network
+- OpenSS: tool for handling and creating SSL certificates
+- www-data: user and group created by debian by default because the security convention is that a web server shouldn't run on root, this role and group are then created for that, which is a role priviledged only to run web pages, and restricted from anything else on the system (eg dl softwares, read psswds...)
 - MariaDB: Database, fork of mySQL that is opensource and community developped
-- Wordpress: 
-- Fpm: used to hook wp cont to nginx, by configuring some php supports so nginx knows how to run php when it receives a request from the browser (this is the location ~ \.php$ part in our nginx config file
-- Volumes:
+
+
+- Wordpress: ???????????????????????
+
+
+- Fpm: used to hook wp cont to nginx, by configuring some php supports so nginx knows how to run php when it receives a request from the browser (this is the location ~ \.php$ part in our nginx config file)
+- Volumes / Bind mounts: volumes store data on your host machine, Docker handles everything itself ; bind mounts do the same, but you handle it yourself, and give a specific folder on the host machine. In this project, we are asked for a volume that acts like a bind mount
     - Notes: They don't only allow you to copy your service's files from the container to the host, but also to allow your server to see your wordpress files, therefore, without our wordpress volume, nginx can't access the website's files and therefore we get a 404 error if we try opening it on a web browser
 - Bind-mounts: 
 - Docker network:
