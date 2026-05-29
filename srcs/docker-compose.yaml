@@ -4,6 +4,7 @@ services:
       build:
           context: requirements/nginx
       restart: unless-stopped
+      env_file: .env
       ports:
           - "443:443"
       depends_on:
@@ -18,7 +19,7 @@ services:
     build:
       context: requirements/mariadb
     restart: unless-stopped
-    # env_file: .env
+    env_file: .env
     networks:
       - docker-network
     volumes:
@@ -33,8 +34,7 @@ services:
     build:
       context: requirements/wordpress
     restart: unless-stopped
-    # env_file: .env
-    # needed if not using docker secrets
+    env_file: .env
     depends_on:
       - mariadb
     networks:
@@ -71,19 +71,19 @@ volumes:
       device: /home/apeuget42/data/wordpress
 
 secrets:
+  db_user:
+    file: ../secrets/db_user.txt
   db_password:
     file: ../secrets/db_password.txt
   db_root_password:
     file: ../secrets/db_root_password.txt
-  db_2nd_user_password:
-    file: ../secrets/db_2nd_user_password.txt
   db_2nd_user:
     file: ../secrets/db_2nd_user.txt
-  db_admin_password:
-    file: ../secrets/db_admin_password.txt
+  db_2nd_user_password:
+    file: ../secrets/db_2nd_user_password.txt
   db_admin:
     file: ../secrets/db_admin.txt
-  db_name:
-    file: ../secrets/db_name.txt
-  db_user:
-    file: ../secrets/db_user.txt
+  db_admin_password:
+    file: ../secrets/db_admin_password.txt
+  # db_name:
+  #   file: ../secrets/db_name.txt

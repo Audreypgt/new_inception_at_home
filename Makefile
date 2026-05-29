@@ -5,7 +5,7 @@ stop:
 	@systemctl stop docker
 
 check:
-	@systemctl status docker
+	@docker ps
 
 up:
 	@docker compose -f ./srcs/docker-compose.yaml up -d --build

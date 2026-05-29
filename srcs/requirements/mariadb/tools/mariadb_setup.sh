@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DB_NAME=$(cat /run/secrets/db_name)
+# DB_NAME=$(cat /run/secrets/db_name)
 DB_USER=$(cat /run/secrets/db_user)
 DB_PASSWORD=$(cat /run/secrets/db_password)
 DB_ROOT_PASSWORD=$(cat /run/secrets/db_root_password)
