@@ -42,7 +42,7 @@ ex:
 #### Change your localhost IP to your domain name
 - Go to file /etc/hosts
 - Add following line : "127.0.0.1 domain_name"
-- Also change the IP adress in /etc/resolv.cnf file to 8.8.8.8
+- Also change the IP address in /etc/resolv.cnf file to 8.8.8.8
 #### Set up Docker volumes
 - Create 2 folders at `/home/your_login/data/` : `wordpress` and `mariadb` (you can make it automatic if needed by creating a bash script that will run on your host machine, and running it with make)
 - Create a volumes section at the end of your docker-compose file
@@ -113,7 +113,7 @@ If you already added your user to docker group, try changing rights of ~/.docker
 
 ### Network is unreachable:
 "target mariadb: failed to solve: debian:bookworm: failed to resolve source metadata for docker.io/library/debian:bookworm: failed to do request: Head "https://registry-1.docker.io/v2/library/debian/manifests/bookworm": dial tcp [2600:1f18:2148:bc00:c80c:3676:30dd:a616]:443: connect: network is unreachable"  
--> change IP adress in file etc/resolv.conf to 8.8.8.8 (DNS) to prevent being blocked
+-> change IP address in file etc/resolv.conf to 8.8.8.8 (DNS) to prevent being blocked
 
 ### Problem with env variables:
 Check they were correctly setup with:
@@ -162,6 +162,7 @@ In mariadb containers's terminal:
     - depends-on: order = database -> wordpress -> nginx 
         - wordpress needs to find its database to start, otherwise it will raise errors, and nginx, our server, needs to find the service it's made to connect to, otherwise it will raise a "502 Bad Gateway" error
         - image: we build a house with the foundations (DB), the walls (WordPress), then the door (NGINX)
+
 - Dockerfile: where we define our service's image
     - FROM: allows us to tell Docker which image to get based on, in this project, using FROM debian, we basically have an empty shell container
     - RUN apt-get update -y: updates list of available packages and their versions ; upgrade: installs newer versions
@@ -170,25 +171,28 @@ In mariadb containers's terminal:
     - RUN rm -rf /var/lib/apt/lists/*: deletes temp files used for installation of services
     - EXPOSE: sed when making the network, allows us to choose to expose a port to the other conts ; 443 is the port to access https
 
-
-- Nginx: Server ????????????????????
-
+- **Nginx**: free and open source HTTP web server that can also be used as reverse proxy, content cache, load balancer, TCP/UDP proxy server and mail proxy server
 
 - TLS: cryptographic protocol providing communication security over an internet network
-- OpenSS: tool for handling and creating SSL certificates
+- OpenSSL: tool for handling and creating SSL certificates
+
 - www-data: user and group created by debian by default because the security convention is that a web server shouldn't run on root, this role and group are then created for that, which is a role priviledged only to run web pages, and restricted from anything else on the system (eg dl softwares, read psswds...)
-- MariaDB: Database, fork of mySQL that is opensource and community developped
 
+- **MariaDB**: open source relational database, fork of mySQL that is opensource and community developped
 
-- Wordpress: ???????????????????????
+- **Wordpress**: free and open source web content management system (software used to manage the creation and modification of digital content), written in PHP and used with mySQL or MariaDB, provides website authoring, collaboration, and administration tools that help users with little knowledge of web programming or markup languages create and manage website content
 
+- Fpm: used to hook wp cont to nginx, by configuring some php supports so nginx knows how to run php when it receives a request from the browser (this is the location ~ \.php$ part in our nginx config file), it allows communication between a web server and php through the FastCGI protocol (interface specification allowing external apps to interact with web servers)
 
-- Fpm: used to hook wp cont to nginx, by configuring some php supports so nginx knows how to run php when it receives a request from the browser (this is the location ~ \.php$ part in our nginx config file)
-- Volumes / Bind mounts: volumes store data on your host machine, Docker handles everything itself ; bind mounts do the same, but you handle it yourself, and give a specific folder on the host machine. In this project, we are asked for a volume that acts like a bind mount
+- Volumes / Bind mounts: volumes store data on your host machine, Docker handles everything itself, the data stored on the host machine is not destined to be modified, this is what bind mounts are for  
+In this project, we are asked for a volume that acts like a bind mount
     - Notes: They don't only allow you to copy your service's files from the container to the host, but also to allow your server to see your wordpress files, therefore, without our wordpress volume, nginx can't access the website's files and therefore we get a 404 error if we try opening it on a web browser
-- Bind-mounts: 
-- Docker network:
-- Docker secrets:
+
+- Bind-mounts: bind mounts allow you to share a folder with your container basically, you can modify in real time the files on your local host and changes will be applied in your container, it's like opening a direct portal between your host and container, this is ideal for dev environments where you need real-time file access and sharing, you also have to handle it yourself, and give a specific path on the host machine
+
+- Docker network: process where containers connect to and communicate with each others and non-Docker network services
+
+- Docker secrets: blob of data (psswrd, username, SSH private key, TLS certificates,...) that shouldn't be transmitted over a network or stored unencrypted in any accessible file, allows you to securely transmit these data only to containers that need it, secrets are encrypted during transmit and stay in a Docker swarm  (one or more nodes: physical or virtual machines running docker engine) during the container is running only
 
 
 

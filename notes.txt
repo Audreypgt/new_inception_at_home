@@ -1,5 +1,3 @@
-- php-fpm (it must be installed and configured) --> is it configured ?
-
 images created with latest tag automatically, is it normal because this is an image made by ourselves, or is it the version of nginx...
 and in this case we need to choose and set a precise version ?
 
@@ -7,6 +5,6 @@ and in this case we need to choose and set a precise version ?
 - how to make the folder creation in /home/apeuget/ so that it adapts to the person's login ?
     --> quickest solution = ask the person to create the folder and change manually the path in the files
 
-TODO: finish readme, glossary in dev doc and user doc
+TODO: finish readme
 
 For review : prepare folder with all files needed that can't go in git (.env, /secrets)

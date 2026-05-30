@@ -1,7 +1,14 @@
 ## Provided services
 ### Nginx
+HTTP web server, software that includes several parts that control how web users access hosted files, it understands URLs (web addresses) and HTTP (the protocol browsers use to view webpages), it can be accessed through the domain names of the websites it stores, and it delivers the content of these hosted websites to the end user's device
+
 ### MariaDB
+Open source relational database
+
 ### Wordpress
+Web content management system (software used to manage the creation and modification of digital content) providing website authoring, collaboration, and administration tools that help users with little knowledge of web programming or markup languages create and manage website content
+
+*Check the glossary section in the dev doc for more in depth documentation*
 
 ## Detailed instructions
 Prerequesites: Docker, Make, VirtualBox and a Virtual Machine
@@ -9,7 +16,7 @@ Prerequesites: Docker, Make, VirtualBox and a Virtual Machine
 - Change your VM's localhost IP to the domain name
     - Go to file /etc/hosts
     - Add following line : "127.0.0.1 login.42.fr"
-    - Also change the IP adress in /etc/resolv.cnf file to 8.8.8.8
+    - Also change the IP address in /etc/resolv.cnf file to 8.8.8.8
 - Git clone the repository in your home folder
 - Create 2 folders at `/home/your_login/data/` : `wordpress` and `mariadb` and, in the Makefile and the docker-compose.yaml file, change the paths from `/home/apeuget42/data/` to `/home/your_login/data/`
 - cd inside the cloned repository

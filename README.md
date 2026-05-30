@@ -8,17 +8,18 @@ This activity consists in the creation of a virtual machine with a graphical int
 An explanation of the use of Docker is available in the DEV_DOC.md file.
 
 ### Virtual Machines vs Docker
-
+Docker is an isolated environment just like a virtual machine, but is way less heavy and doesn't require its own OS  
+The VM uses a supervisor and emulates the OS and applications layers of the local host, when Docker is just the applications layer
 
 ### Secrets vs Environment Variables
-
+Secrets allow you to securely transmit confidential data only to containers that need it, they are encrypted during transmit and stay in the container's files while it is running only, whereas environment variables are usually stored in .env file where there is no encryption and a risk of pushing this file on github, the data also stays in the container when it's not running
 
 ### Docker Network vs Host Network
-
+Docker network allows containers to connect to and communicate with each others and non-Docker network services isolated from the host machine, whereas host networks allows containers to share the same network as the local host, the containers then don't get their own IP addresses, that can be useful to optimize performance or in situations where a container needs to handle a range of ports
 
 ### Docker Volumes vs Bind Mounts
-
-
+Volumes store data on your host machine, Docker handles everything itself, the data stored on the host machine is not destined to be modified, this is what bind mounts are for, bind mounts allow you to share a folder with your container basically, you can modify in real time the files on your local host and changes will be applied in your container, you also have to handle it yourself and give a specific path on the host machine  
+--> In this project, we are asked for a volume that acts like a bind mount
 
 ### Technical choices
 I chose to use Debian as I had already used it for Born2BeRoot, therefore it was an OS I knew how to operate.
@@ -69,6 +70,8 @@ Prerequesites: Docker, Make, VirtualBox and a Virtual Machine
 
 ### Network
 - [Bridge explanation](https://www.nicelydev.com/docker/reseau-host-bridge)
+- [Docker doc](https://docs.docker.com/engine/network/)
+- [Docker host network](https://docs.docker.com/engine/network/drivers/host/)
 
 ### Secrets
 - [How-to](https://blog.stephane-robert.info/docs/conteneurs/moteurs-conteneurs/docker/secrets/)
