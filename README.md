@@ -8,8 +8,8 @@ This activity consists in the creation of a virtual machine with a graphical int
 An explanation of the use of Docker is available in the DEV_DOC.md file.
 
 ### Virtual Machines vs Docker
-Docker is an isolated environment just like a virtual machine, but is way less heavy and doesn't require its own OS  
-The VM uses a supervisor and emulates the OS and applications layers of the local host, when Docker is just the applications layer
+Docker is a virtualization software just like a virtual machine, but is way less heavy and doesn't require its own OS. It packages apps in a container with all necessary dependencies, configurations, system tools and runtime, librairies, environment configurations, and makes it really easy to share and distribute, with just one command to deploy a whole project.
+DOcker virtualizes the OS app layer only, while VMs virtualizes the whole OS with the kernel.
 
 ### Secrets vs Environment Variables
 Secrets allow you to securely transmit confidential data only to containers that need it, they are encrypted during transmit and stay in the container's files while it is running only, whereas environment variables are usually stored in .env file where there is no encryption and a risk of pushing this file on github, the data also stays in the container when it's not running
